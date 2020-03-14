@@ -50,4 +50,4 @@ RUN apt-get -y install gettext
 RUN docker-php-ext-install intl
 RUN docker-php-ext-install gettext
 
-EXPOSE 9000 9001
+EXPOSE 9000
