@@ -44,19 +44,15 @@ RUN curl -L https://get.rvm.io | bash -s stable
 RUN echo 'source /usr/local/rvm/scripts/rvm' >> /etc/bash.bashrc
 RUN /bin/bash -l -c "rvm requirements"
 RUN /bin/bash -l -c "rvm install 2.4.2"
-RUN /bin/bash -l -c "rvm use 2.4.2"
+RUN /bin/bash -l -c "rvm use ruby-2.4.2"
 RUN /bin/bash -l -c "rvm @global do gem install sass -v 3.4.18"
 
-ENV NVM_DIR /usr/local/nvm
-ENV NODE_VERSION 8.17.0
-RUN mkdir /usr/local/nvm
-RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash \
-    && . $NVM_DIR/nvm.sh \
-    && nvm install $NODE_VERSION \
-    && nvm alias default $NODE_VERSION \
-    && nvm use default \
-    && npm install -g less sass less-loader css-loader style-loader grunt gulp gulp-cli
-
+RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
+RUN apt-get install -y nodejs npm
+RUN npm cache clean -f
+RUN npm install -g n
+RUN n stable
+RUN npm install -g less sass less-loader css-loader style-loader grunt gulp gulp-cli
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
@@ -65,7 +61,7 @@ RUN apt-get update && apt-get install -y yarn
 
 
 RUN echo "sendmail_path = /usr/sbin/msmtp -t" > /usr/local/etc/php/conf.d/sendmail.ini && \
-    echo "account mailcatcher\nhost mailcatcher\nport 1025\ntls off" > /etc/msmtprc
+    echo "account mailcatcher\nhost mailcatcher\nport 1025\ntls off\n\naccount default : mailcatcher" > /etc/msmtprc
 
 RUN pecl install oauth \
     && docker-php-ext-enable oauth
