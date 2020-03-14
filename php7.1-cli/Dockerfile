@@ -52,4 +52,4 @@ RUN pecl install oauth \
     && docker-php-ext-enable oauth
 
 
-EXPOSE 9000 9001
+EXPOSE 9000
