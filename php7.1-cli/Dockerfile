@@ -50,6 +50,6 @@ RUN docker-php-ext-install -j$(nproc) soap
 
 RUN pecl install oauth \
     && docker-php-ext-enable oauth
-
+RUN docker-php-ext-install -j$(nproc) bz2
 
 EXPOSE 9000
