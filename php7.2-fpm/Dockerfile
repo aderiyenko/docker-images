@@ -72,5 +72,6 @@ RUN pecl install apcu \
 RUN apt-get -y install gettext
 RUN docker-php-ext-install intl
 RUN docker-php-ext-install gettext
+RUN docker-php-ext-install -j$(nproc) bz2
 
 EXPOSE 9000
